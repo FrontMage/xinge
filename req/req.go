@@ -47,8 +47,8 @@ func NewSingleIOSAccountPush(
 	return NewPushReq(req, opts...)
 }
 
-// NewSinglAndroidAccountPush 新建一个安卓通知栏push请求
-func NewSinglAndroidAccountPush(
+// NewSingleAndroidAccountPush 新建一个安卓通知栏push请求
+func NewSingleAndroidAccountPush(
 	account, title, content string,
 	opts ...ReqOpt,
 ) (*http.Request, error) {
