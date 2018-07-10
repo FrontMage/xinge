@@ -94,7 +94,6 @@ fmt.Printf("%+v", r)
 ```
 
 ### iOS多账号push
-`WIP`
 ```go
 auther := auth.Auther{AppID: "AppID", SecretKey: "SecretKey"}
 pushReq, _ := req.NewPushReq(
