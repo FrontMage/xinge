@@ -1,6 +1,8 @@
 # xinge
 腾讯信鸽push Golang lib
 
+`信鸽v3版API的简单封装`
+
 ## 用法
 
 ### 安装
@@ -117,8 +119,103 @@ json.Unmarshal(body, r)
 fmt.Printf("%+v", r)
 ```
 
-### 设备push
-`WIP`
+### 单设备push
+```go
+auther := auth.Auther{AppID: "AppID", SecretKey: "SecretKey"}
+pushReq, _ := req.NewPushReq(
+    &xinge.Request{},
+    req.Platform(xinge.PlatformiOS),
+    req.EnvDev(),
+    req.AudienceType(xinge.AdToken),
+    req.MessageType(xinge.MsgTypeNotify),
+    req.TokenList([]string{"10000031", "10000034"}),
+    req.PushID("0"),
+    req.Message(xinge.Message{
+        Title:   "haha",
+        Content: "hehe",
+    }),
+)
+auther.Auth(pushReq)
+
+c := &http.Client{}
+rsp, _ := c.Do(pushReq)
+defer rsp.Body.Close()
+body, _ := ioutil.ReadAll(rsp.Body)
+
+r := &xinge.CommonRsp{}
+json.Unmarshal(body, r)
+fmt.Printf("%+v", r)
+if r.RetCode != 0 {
+    t.Errorf("Failed rsp=%+v", r)
+}
+```
+
+### 多设备push
+```go
+auther := auth.Auther{AppID: "AppID", SecretKey: "SecretKey"}
+pushReq, _ := req.NewPushReq(
+    &xinge.Request{},
+    req.Platform(xinge.PlatformiOS),
+    req.EnvDev(),
+    req.AudienceType(xinge.AdTokenList),
+    req.MessageType(xinge.MsgTypeNotify),
+    req.TokenList([]string{"10000031", "10000034"}),
+    req.PushID("0"),
+    req.Message(xinge.Message{
+        Title:   "haha",
+        Content: "hehe",
+    }),
+)
+auther.Auth(pushReq)
+
+c := &http.Client{}
+rsp, _ := c.Do(pushReq)
+defer rsp.Body.Close()
+body, _ := ioutil.ReadAll(rsp.Body)
+
+r := &xinge.CommonRsp{}
+json.Unmarshal(body, r)
+fmt.Printf("%+v", r)
+if r.RetCode != 0 {
+    t.Errorf("Failed rsp=%+v", r)
+}
+```
 
 ### 标签push
-`WIP`
+```go
+auther := auth.Auther{AppID: "AppID", SecretKey: "SecretKey"}
+pushReq, _ := req.NewPushReq(
+    &xinge.Request{},
+    req.Platform(xinge.PlatformiOS),
+    req.EnvDev(),
+    req.AudienceType(xinge.AdTag),
+    req.MessageType(xinge.MsgTypeNotify),
+    req.TagList(&xinge.TagList{
+        Tags:      []string{"new", "active"},
+        Operation: xinge.TagListOpAnd,
+    }),
+    req.PushID("0"),
+    req.Message(xinge.Message{
+        Title:   "haha",
+        Content: "hehe",
+    }),
+)
+auther.Auth(pushReq)
+
+c := &http.Client{}
+rsp, _ := c.Do(pushReq)
+defer rsp.Body.Close()
+body, _ := ioutil.ReadAll(rsp.Body)
+
+r := &xinge.CommonRsp{}
+json.Unmarshal(body, r)
+fmt.Printf("%+v", r)
+if r.RetCode != 0 {
+    t.Errorf("Failed rsp=%+v", r)
+}
+```
+
+## 贡献代码指南
+目前的设计是通过`ReqOpt`函数来扩展各种请求参数，尽量请保持代码风格一致，使用`gofmt`来格式化代码。
+
+贡献代码时可先从项目中的`TODO`开始，同时也欢迎提交新feature的PR和bug issue。
