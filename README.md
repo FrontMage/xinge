@@ -1,4 +1,7 @@
 # xinge
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/FrontMage/xinge)](https://goreportcard.com/report/github.com/FrontMage/xinge) 
+
 腾讯信鸽push Golang lib
 
 `信鸽v3版API的简单封装`
