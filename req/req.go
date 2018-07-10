@@ -9,6 +9,7 @@ import (
 	"github.com/FrontMage/xinge"
 )
 
+// XingeURL 信鸽API地址
 var XingeURL = "https://openapi.xg.qq.com/v3/push/app"
 
 // URL 修改信鸽的请求URL
@@ -246,7 +247,16 @@ func Action(a map[string]interface{}) ReqOpt {
 	}
 }
 
-// TODO: append action
+// AddAction 添加action
+func AddAction(k string, v interface{}) ReqOpt {
+	return func(r *xinge.Request) {
+		if r.Message.Android.Action == nil {
+			r.Message.Android.Action = map[string]interface{}{k: v}
+		} else {
+			r.Message.Android.Action[k] = v
+		}
+	}
+}
 
 // CustomContent 修改custom_content 和 custom
 func CustomContent(ct map[string]string) ReqOpt {
@@ -353,8 +363,7 @@ func ExpireTime(et time.Time) ReqOpt {
 // SendTime 修改send_time
 func SendTime(st time.Time) ReqOpt {
 	return func(r *xinge.Request) {
-		// TODO: format this time as yyyy-MM-DD HH:MM:SS
-		r.SendTime = st.Format("")
+		r.SendTime = st.Format("2006-01-02 15:04:05:07")
 	}
 }
 

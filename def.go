@@ -178,6 +178,7 @@ type Message struct {
 
 // AndroidParams 安卓push参数
 type AndroidParams struct {
+	// TODO: doc these
 	NID           int                    `json:"n_id,omitempty"`
 	BuilderID     int                    `json:"builder_id,omitempty"`
 	Ring          int                    `json:"ring,omitempty"`
