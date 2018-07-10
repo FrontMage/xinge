@@ -408,3 +408,10 @@ func PushID(pid string) ReqOpt {
 		r.PushID = pid
 	}
 }
+
+// MessageType 修改消息类型
+func MessageType(t xinge.MessageType) ReqOpt {
+	return func(r *xinge.Request) {
+		r.MessageType = t
+	}
+}
